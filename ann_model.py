@@ -2,6 +2,10 @@ import numpy as np
 from sklearn.neural_network import MLPClassifier
 from sklearn.feature_extraction.text import TfidfVectorizer
 
+#Metinleri sınıflara (örneğin, pozitif/negatif, spam/ham) ayırmak için ANN kullanılır.
+#TF-IDF, ham metin verilerini sayısal vektörlere dönüştürerek ANN gibi modellerin girişine uygun hale getirir.
+#Model, daha karmaşık ve bağlamsal ilişkileri öğrenmek için gizli katmanlar kullanır.
+
 def create_ann_model(X_train, y_train, hidden_layer_sizes=(10,)):
     """
     Basit bir yapay sinir ağı (ANN) modeli oluşturur ve eğitir.

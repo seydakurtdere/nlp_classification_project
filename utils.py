@@ -1,4 +1,4 @@
-import re
+import re 
 from sklearn.feature_extraction.text import TfidfVectorizer
 import pandas as pd
 
@@ -32,6 +32,9 @@ def build_vocabulary(train_data, n=1):
     return vocabulary
 
 def generate_ngrams_from_corpus(corpus, n):
+    """
+    Tüm bu n-gram'ları bir araya getiren bir liste döndürür.
+    """
     ngrams = []
     for text in corpus:
         generated = generate_ngrams(text, n)

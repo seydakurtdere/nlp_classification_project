@@ -2,12 +2,15 @@ from collections import defaultdict
 import math
 from utils import generate_ngrams
 
+#Interpolasyon, farklı düzeylerdeki (örneğin, unigram, bigram, trigram) n-gram'ların 
+#olasılıklarını birleştirerek daha güçlü bir dil modeli oluşturur.
+
 def interpolate_ngrams(class_ngram_counts_1, class_ngram_counts_2, class_ngram_counts_3, 
                        class_totals_1, class_totals_2, class_totals_3, weights):
-    if sum(weights) != 1:
+    if sum(weights) != 1: #Verilen ağırlıkların toplamının 1 olması gerekir.
         raise ValueError("Weights must sum to 1.")
         
-    interpolated_probs = defaultdict(lambda: defaultdict(float))
+    interpolated_probs = defaultdict(lambda: defaultdict(float)) #Her sınıf için interpolasyon yapılmış olasılıkları saklayan bir sözlük.
     
     all_classes = class_ngram_counts_1.keys()
     
@@ -16,7 +19,7 @@ def interpolate_ngrams(class_ngram_counts_1, class_ngram_counts_2, class_ngram_c
                       set(class_ngram_counts_2[class_label].keys()) | 
                       set(class_ngram_counts_3[class_label].keys()))
         
-        for ngram in all_ngrams:
+        for ngram in all_ngrams: #interpolasyon hesaplamaları
             prob_1 = class_ngram_counts_1[class_label].get(ngram, 1e-7) / class_totals_1[class_label]
             prob_2 = class_ngram_counts_2[class_label].get(ngram, 1e-7) / class_totals_2[class_label]
             prob_3 = class_ngram_counts_3[class_label].get(ngram, 1e-7) / class_totals_3[class_label]
@@ -27,7 +30,7 @@ def interpolate_ngrams(class_ngram_counts_1, class_ngram_counts_2, class_ngram_c
                 weights[2] * prob_3
             )
         
-        interpolated_probs[class_label]["<unseen>"] = 1e-7
+        interpolated_probs[class_label]["<unseen>"] = 1e-7 #Daha önce görülmemiş n-gram'lar için çok küçük bir olasılık atanır.
 
     return interpolated_probs
 
