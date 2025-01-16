@@ -3,17 +3,13 @@ from collections import defaultdict, Counter
 from utils import generate_ngrams
 
 #Good-Turing Smoothing, özellikle görülmemiş n-gram'lara sıfırdan farklı olasılıklar atamak için kullanılan bir tekniktir.
-
 def good_turing_smoothing(class_ngram_counts, class_totals, vocab_size, ngrams):
-    """
-    Good-Turing düzeltmesini kullanarak her sınıf için n-gram olasılıklarını hesaplar.
-    """
     smoothed_probs = defaultdict(Counter)
 
     for class_label, ngram_counts in class_ngram_counts.items():
         total_count = class_totals[class_label]
 
-        for ngram in ngrams:x
+        for ngram in ngrams:
             count = ngram_counts.get(ngram, 0)
             if count == 0:  # Sadece görülmemişler için
                 smoothed_probs[class_label][ngram] = 1 / (total_count + vocab_size)
